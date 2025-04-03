@@ -177,7 +177,13 @@
 }
 
 @media (max-width: 600px) {
-  .main-bottom input {
+  .main-bottom{
+    position: fixed;
+  }
+  .main .cards{
+    display: none;
+  }
+  .main .main-bottom input {
     flex: none;
     width: 150px;
   }
