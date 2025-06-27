@@ -7,12 +7,15 @@ import { Context } from "../../context/Context.jsx";
 
 const Sidebar = () => {
   const [extended, setExtended] = useState(false);
-  const { onSent, prevPrompts, setRecentPrompt, newChat} = useContext(Context);
- const loadPrompt = async (prompt) => {
-  
+  const { onSent, prevPrompts, setRecentPrompt, newChat } = useContext(Context);
+
+  if (prevPrompts.length > 3) {
+    throw new Error("Too many prompts");
+  }
+  const loadPrompt = async (prompt) => {
     setRecentPrompt(prompt);
     await onSent(prompt);
- }
+  };
 
   return (
     <div className="sidebar">
@@ -33,11 +36,15 @@ const Sidebar = () => {
 
             {prevPrompts.map((prompt, index) => {
               return (
-                <div className="recent-entry" key={index} onClick={() => loadPrompt(prompt)}>
-                <img src={assets.message_icon} alt="message" className="" />
-                <p className="recent-entry-text">{prompt.slice(0, 18)}...</p>
-              </div>
-              )
+                <div
+                  className="recent-entry"
+                  key={index}
+                  onClick={() => loadPrompt(prompt)}
+                >
+                  <img src={assets.message_icon} alt="message" className="" />
+                  <p className="recent-entry-text">{prompt.slice(0, 18)}...</p>
+                </div>
+              );
             })}
           </div>
         ) : null}
